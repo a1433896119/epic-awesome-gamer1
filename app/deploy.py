@@ -106,6 +106,15 @@ async def deploy():
     # Log current configuration for debugging
     sj = settings.model_dump(mode="json")
     sj["headless"] = headless
+    settings.CHALLENGE_CLASSIFIER_MODEL = "gemini-2.5-flash"
+    settings.IMAGE_CLASSIFIER_MODEL = "gemini-2.5-flash"
+    settings.SPATIAL_POINT_REASONER_MODEL = "gemini-2.5-flash"
+    settings.SPATIAL_PATH_REASONER_MODEL = "gemini-2.5-flash"
+    settings.IMAGE_CLASSIFIER_THINKING_BUDGET = 500
+    settings.SPATIAL_POINT_THINKING_BUDGET = 800
+    settings.SPATIAL_PATH_THINKING_BUDGET = 2048
+
+    
     logger.debug(
         f"Starting deployment with configuration: {json.dumps(sj, indent=2, ensure_ascii=False)}"
     )
