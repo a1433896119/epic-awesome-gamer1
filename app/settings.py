@@ -85,3 +85,12 @@ class EpicSettings(AgentConfig):
 
 settings = EpicSettings()
 settings.ignore_request_questions = ["Please drag the crossing to complete the lines"]
+# 强制替换Gemini模型为2.5-flash，解决429配额耗尽问题
+settings.CHALLENGE_CLASSIFIER_MODEL = "gemini-2.5-flash"
+settings.IMAGE_CLASSIFIER_MODEL = "gemini-2.5-flash"
+settings.SPATIAL_POINT_REASONER_MODEL = "gemini-2.5-flash"
+settings.SPATIAL_PATH_REASONER_MODEL = "gemini-2.5-flash"
+# 降低token消耗，进一步避免配额问题（可选，加了更稳）
+settings.IMAGE_CLASSIFIER_THINKING_BUDGET = 500
+settings.SPATIAL_POINT_THINKING_BUDGET = 800
+settings.SPATIAL_PATH_THINKING_BUDGET = 2048
