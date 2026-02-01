@@ -103,18 +103,20 @@ async def deploy():
     """
     headless = True
 
-    # Log current configuration for debugging
-    sj = settings.model_dump(mode="json")
-    sj["headless"] = headless
+    # ↓↓↓ 强制替换所有Gemini模型为2.5-flash 解决429配额问题 ↓↓↓
     settings.CHALLENGE_CLASSIFIER_MODEL = "gemini-2.5-flash"
     settings.IMAGE_CLASSIFIER_MODEL = "gemini-2.5-flash"
     settings.SPATIAL_POINT_REASONER_MODEL = "gemini-2.5-flash"
     settings.SPATIAL_PATH_REASONER_MODEL = "gemini-2.5-flash"
+    # 降低token消耗，适配免费额度，避免快速耗尽
     settings.IMAGE_CLASSIFIER_THINKING_BUDGET = 500
     settings.SPATIAL_POINT_THINKING_BUDGET = 800
     settings.SPATIAL_PATH_THINKING_BUDGET = 2048
+    # ↑↑↑ 模型替换配置结束 ↑↑↑
 
-    
+    # Log current configuration for debugging
+    sj = settings.model_dump(mode="json")
+    sj["headless"] = headless
     logger.debug(
         f"Starting deployment with configuration: {json.dumps(sj, indent=2, ensure_ascii=False)}"
     )
